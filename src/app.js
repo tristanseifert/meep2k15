@@ -11,7 +11,7 @@ var main = new UI.Card({
   title: 'Pebble.js',
   icon: 'images/menu_icon.png',
   subtitle: 'Hello World!',
-  body: 'Press any button.'
+  body: 'You are a potato and should set your hair on fire.'
 });
 
 main.show();
@@ -22,7 +22,7 @@ main.on('click', 'up', function(e) {
       items: [{
         title: 'Pebble.js',
         icon: 'images/menu_icon.png',
-        subtitle: 'Can do Menus'
+        subtitle: 'This is an menu item!!!'
       }, {
         title: 'Second Item',
         subtitle: 'Subtitle Text'
