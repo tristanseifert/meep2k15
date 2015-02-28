@@ -7,6 +7,8 @@
 var UI = require('ui');
 var Vector2 = require('vector2');
 
+var url = "http://api.openweathermap.org/data/2.5/weather?q=Dallas";
+
 var main = new UI.Card({
   title: 'Pebble.js',
   icon: 'images/menu_icon.png',
@@ -37,16 +39,38 @@ main.on('click', 'up', function(e) {
 });
 
 main.on('click', 'select', function(e) {
-  var wind = new UI.Window();
-  var textfield = new UI.Text({
-    position: new Vector2(0, 50),
-    size: new Vector2(144, 30),
-    font: 'bitham-30-black',
-    text: 'Hello, World!',
-    textAlign: 'center'
-  });
-  wind.add(textfield);
-  wind.show();
+  ajax({
+      url: URL,
+      type: 'json'
+    },
+    function(data) {
+      // Success!
+      console.log('Successfully fetched weather data!');
+
+      // Extract data
+      var location = data.name;
+      var temperature = Math.round(data.main.temp - 273.15) + 'C';
+
+      // Always upper-case first letter of description
+      var description = data.weather[0].description;
+      description = description.charAt(0).toUpperCase() + description.substring(1);
+
+      var wind = new UI.Window();
+      var textfield = new UI.Text({
+        position: new Vector2(0, 50),
+        size: new Vector2(144, 30),
+        font: 'bitham-30-black',
+        text: location + '\n' + temperature + '°C\n' + description,
+        textAlign: 'center'
+      });
+      wind.add(textfield);
+      wind.show();
+    },
+    function(error) {
+      // Failure!
+      console.log('Failed fetching weather data: ' + error);
+    }
+  );
 });
 
 main.on('click', 'down', function(e) {
