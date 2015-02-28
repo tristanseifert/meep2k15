@@ -16,7 +16,7 @@ var main = new UI.Card({
   title: 'Pebble.js',
   icon: 'images/menu_icon.png',
   subtitle: 'Hello World!',
-  body: 'You are a APPLES and should set your hair on fire.'
+  body: 'You are a APPLES2.0'
 });
 
 main.show();
