@@ -73227,4 +73227,6 @@ var airports = [
     "lat": "42.885662",
     "size": "medium"
   }
-]
+];
+
+export default airports;
