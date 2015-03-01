@@ -1,3 +1,7 @@
+module.exports = function() {
+    this.airports = airports;
+}
+
 var airports = [
   {
     "iata": "UTK",
