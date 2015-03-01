@@ -4,7 +4,7 @@ import UIInitMixin from '../mixins/uielement-initialisers';
 import APIStuff from '../api/joswork';
 
 export default Ember.Route.extend(UIInitMixin, {
-	api: APIStuff.create(),
+	joswork: APIStuff.create(),
 
 	model: function(params) {
 		var controller = this.controllerFor('theme');
@@ -27,7 +27,7 @@ export default Ember.Route.extend(UIInitMixin, {
 		 */
 		var promise = new Ember.RSVP.Promise(function(resolve, reject) {
 			// get all the shits
-			_this.api.getFormattedDestinations(airport, themeId, length, price, function(r) {
+			_this.joswork.getFormattedDestinations(airport, themeId, length, price, function(r) {
 				// build the stuff
 //				console.log(r);
 
