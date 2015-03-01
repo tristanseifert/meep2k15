@@ -111,6 +111,7 @@ export default Ember.Object.extend({
 		unfDest["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
 
 		fDests.push(unfDest);
+		console.log(unfDest);
 
 		// Calculate their weights and costs
 		for (var i = fDests.length - 1; i >= 0; i--) {
@@ -181,11 +182,6 @@ export default Ember.Object.extend({
 			var arriveTz = leg.ArrivalTimeZone.GMTOffset;
 			var arriveTime = leg.ArrivalDateTime/* + "" + this.pad(arriveTz, 2) + ":00"*/;
 			legInfo.arrive = moment(arriveTime , moment.ISO_8601).toDate();
-
-			/*console.log(departTime);
-			console.log(arriveTime);
-
-			console.log(legInfo);*/
 
 			// Push it
 			legs.push(legInfo);

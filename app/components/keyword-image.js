@@ -18,7 +18,7 @@ export default Ember.Component.extend({
 
 		// set as src
 		//this.set('src', src);
-		return src;
+		return src + "?t=" + Math.random();
 	}.property('keywords'),
 
 	// do some shit
