@@ -1,9 +1,14 @@
 import Ember from 'ember';
 import UIInitMixin from '../mixins/uielement-initialisers';
 
+import APIStuff from '../api/joswork';
+
 export default Ember.Route.extend(UIInitMixin, {
+	api: APIStuff.create(),
+
 	model: function(params) {
 		var controller = this.controllerFor('theme');
+		var _this = this;
 
 		// theme id, length of stay, max price
 		var themeId = params.theme_id;
@@ -22,6 +27,7 @@ export default Ember.Route.extend(UIInitMixin, {
 		 */
 		var promise = new Ember.RSVP.Promise(function(resolve, reject) {
 			// put them API calls here pls
+			_this.api.getThemes();
 
 			// build the stuff
 			var infos = {
