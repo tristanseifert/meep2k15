@@ -67,6 +67,21 @@ export default Ember.Object.extend({
 		} 
 	},
 
+	findAirport: function(_this, definition, callback) {
+		// map to city
+		_this.api.getAirportFromCode(definition.DestinationLocation, function(a) {
+			var airport = a.airports[0];
+
+			definition.city = airport.city;
+			definition.country = airport.country;
+			definition.name = airport.name;
+
+			console.log(definition);
+
+			callback();
+		});		
+	},
+
 	getFormattedDestinations: function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare, callback) {
 		var _this = this;
 
@@ -92,22 +107,13 @@ export default Ember.Object.extend({
 				var retdate = unfDest["ReturnDateTime"];
 				unfDest["ReturnDate"] = retdate.slice(4,6) + "/" + retdate.slice(6,8) + "/" + retdate.slice(0,4);
 
-				fDests.push(unfDest);
-
-				// map to city
-				_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
-					var airport = airport.airports[0];
-
-					unfDest.city = airport.city;
-					unfDest.country = airport.country;
-					unfDest.name = airport.name;
-
-					console.log(unfDest);
-
+				_this.findAirport(_this, unfDest, function() {
 					if(--numItineraries == 0) {
 						callback(fDests);
 					}
 				});
+
+				fDests.push(unfDest);
 
 				// when done, call the main callback
 				if(--numItineraries == 0) {
