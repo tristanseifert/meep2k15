@@ -92,6 +92,9 @@ export default Ember.Object.extend({
 		 			var itinerary = destinationInfo.PricedItineraries[i];
 
 		 			var obama = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
+		 			itinerary.cost = itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount;
+
+		 			//console.log(itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount);
 
 		 			itinerary.arriving = _this.processLeg(obama[0]);
 		 			itinerary.departing = _this.processLeg(obama[1]);
@@ -99,7 +102,7 @@ export default Ember.Object.extend({
 		 			itineraries.push(itinerary);
 		 		}
 
-		 		definition.flights = itineraries;
+		 		definition.flights = itineraries.reverse();
 
 		 		//console.log(itineraries);
 			}

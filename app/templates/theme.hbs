@@ -41,7 +41,18 @@
 								</div>
 								<div class="card-reveal">
 									<span class="card-title grey-text text-darken-4">Flights <i class="mdi-navigation-close right"></i></span>
-									<p>Here is some more information about this product that is only revealed once clicked on.</p>
+									
+									<ul class="collection">
+										{{#each itinerary in flight.flights}}
+											<li class="collection-item">
+												{{#each leg in itinerary.departing.legs}}
+													{{leg.flightNumber}}
+												{{/each}}
+
+												<span class="badge">{{format-number itinerary.cost style="currency" currency="USD"}}</span>
+											</li>
+										{{/each}}
+									</ul>
 								</div>
 							</div>
 						</div>
