@@ -17,24 +17,28 @@ var app = new EmberApp();
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
-// MaterialiseCSS
-//app.import('bower_components/materialize/dist/css/materialize.css');
+// MaterialiseCSS JS and friends
 app.import('bower_components/materialize/dist/js/materialize.js');
 
+// MaterializeCSS Fonts
 app.import("bower_components/materialize/dist/font/material-design-icons/Material-Design-Icons.woff", {
-	destDir: "font/material-design-icons"
+	destDir: "assets/fonts/material-design-icons"
 });
 
 app.import("bower_components/materialize/dist/font/roboto/Roboto-Bold.ttf", {
-	destDir: "font/roboto"
-});app.import("bower_components/materialize/dist/font/roboto/Roboto-Light.ttf", {
-	destDir: "font/roboto"
-});app.import("bower_components/materialize/dist/font/roboto/Roboto-Medium.ttf", {
-	destDir: "font/roboto"
-});app.import("bower_components/materialize/dist/font/roboto/Roboto-Regular.ttf", {
-	destDir: "font/roboto"
-});app.import("bower_components/materialize/dist/font/roboto/Roboto-Thin.ttf", {
-	destDir: "font/roboto"
+	destDir: "assets/fonts/roboto"
+});
+app.import("bower_components/materialize/dist/font/roboto/Roboto-Light.ttf", {
+	destDir: "assets/fonts/roboto"
+});
+app.import("bower_components/materialize/dist/font/roboto/Roboto-Medium.ttf", {
+	destDir: "assets/fonts/roboto"
+});
+app.import("bower_components/materialize/dist/font/roboto/Roboto-Regular.ttf", {
+	destDir: "assets/fonts/roboto"
+});
+app.import("bower_components/materialize/dist/font/roboto/Roboto-Thin.ttf", {
+	destDir: "assets/fonts/roboto"
 });
 
 module.exports = app.toTree();

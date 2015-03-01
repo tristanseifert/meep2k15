@@ -1,4 +1,4 @@
-<nav class="light-blue lighten-1" role="navigation">
+<nav role="navigation">
 	<div class="nav-wrapper container">
 		{{#link-to 'index' class="brand-logo"}}Logo{{/link-to}}
 		<ul class="right">
@@ -13,10 +13,12 @@
 </nav>
 
 {{!-- content --}}
-{{outlet}}
+<main>
+	{{outlet}}
+</main>
 
 {{!-- footer --}}
-<footer class="page-footer orange">
+<footer class="page-footer">
 	<div class="container">
 		<div class="row">
 			<div class="col l6 s12">

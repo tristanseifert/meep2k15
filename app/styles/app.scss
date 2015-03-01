@@ -1,1 +1,19 @@
+/** material design */
+$roboto-font-path: "/assets/fonts/roboto/";
+$icons-font-path: "/assets/fonts/material-design-icons/";
+
+$primary-color: #03a9f4;
+$secondary-color: #ffc107;
+
 @import 'bower_components/materialize/sass/materialize';
+
+/* a bunch of general stuff */
+footer {
+	background-color: color("teal", "base") !important;
+}
+
+.jumbotron {
+	h1 {
+		color: color("orange", "base");
+	}
+}
