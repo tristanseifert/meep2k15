@@ -11,10 +11,10 @@
 					contentBinding="this.airportList"
 					selectionBinding="this.airport"}}
 
-				<div class="input-field">
-					{{input type="number" id="length" min="2" max="16" value=this.lengthOfStay}}
-					<label for="length">Length of Stay</label>
-				</div>
+				<label for="length">Length of Stay (Days)</label>
+				{{view "select"
+					contentBinding="this.stayLengths"
+					selectionBinding="this.lengthOfStay"}}
 
 				<label>Maximum Price (USD)</label>
 				<p class="range-field">
@@ -30,7 +30,7 @@
 					<div class="col s12 m6">
 						<div class="card">
 							<div class="card-image waves-effect waves-block waves-light">
-								{{keyword-image keywords="watermelon" class="activator"}}
+								{{keyword-image keywords="garden" class="activator"}}
 							</div>
 							<div class="card-content">
 								<span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-navigation-more-vert right"></i></span>
