@@ -26,16 +26,19 @@ export default Ember.Route.extend(UIInitMixin, {
 		 * Call "resolve" with the array on success, or reject if an error.
 		 */
 		var promise = new Ember.RSVP.Promise(function(resolve, reject) {
-			// put them API calls here pls
-			_this.api.getThemes();
+			// get all the shits
+			_this.api.getFormattedDestinations(airport, themeId, length, price, function(r) {
+				// build the stuff
+				console.log(r);
 
-			// build the stuff
-			var infos = {
-				name: theme.get('name')
-			};
-			console.log(infos);
+				var infos = {
+					name: theme.get('name'),
+					results: r
+				};
+				console.log(infos);
 
-			resolve(infos);
+				resolve(infos);
+			});
 		});
 
 		return promise;

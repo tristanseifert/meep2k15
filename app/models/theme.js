@@ -7,24 +7,48 @@ var Theme = DS.Model.extend({
 Theme.reopenClass({
 	FIXTURES: [
 		{
-			title: "potato spheres",
-			id: "potato"
+			title: "Theme Park",
+			id: "THEME-PARK"
 		},
 		{
-			title: "watermelon oranges",
-			id: "watermelon"
+			title: "Skiing",
+			id: "SKIING"
 		},
 		{
-			title: "meepers #258241",
-			id: "meep"
+			title: "Shopping",
+			id: "SHOPPING"
 		},
 		{
-			title: "An Apple Potato",
-			id: "apple"
+			title: "Romantic",
+			id: "ROMANTIC"
 		},
 		{
-			title: "The Ghana Banana™",
-			id: "banana"
+			title: "Outdoors",
+			id: "OUTDOORS"
+		},
+		{
+			title: "National Parks",
+			id: "NATIONAL-PARKS"
+		},
+		{
+			title: "Mountains",
+			id: "MOUNTAINS"
+		},
+		{
+			title: "Historic",
+			id: "HISTORIC"
+		},
+		{
+			title: "Gambling",
+			id: "GAMBLING"
+		},
+		{
+			title: "Disney",
+			id: "DISNEY"
+		},
+		{
+			title: "Beach",
+			id: "BEACH"
 		},
 	]
 });

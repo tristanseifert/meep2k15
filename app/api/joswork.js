@@ -4,6 +4,7 @@ import APICalls from './api-calls';
 
 export default Ember.Object.extend({
 	api: APICalls.create(),
+	userCoords: null,
 
 	getThemes: function() {
 		var themes = [];
@@ -16,12 +17,10 @@ export default Ember.Object.extend({
 			for(var i = apiThemes.length - 1; i >= 0; i--) {
 				var theme = apiThemes[i];
 
-				console.log(theme);
-
 				var name = theme["Theme"];
 				theme["Name"] = name[0] + name.slice(1,name.length).toLowerCase();
 				themes.push(theme);
-			};
+			}
 		});
 		
 		return themes;
@@ -31,10 +30,15 @@ export default Ember.Object.extend({
 		if ("geolocation" in navigator) {
 			var values = null;
 			var looping = true;
-			navigator.geolocation
-			.getCurrentPosition(function positionCallback(pos) {
-				userCoords = pos.coords;
-				this.api.getAirportsNearest(userCoords.latitude, userCoords.longitude, 5, function(airports){
+
+			var _this = this;
+
+			// get current position
+			navigator.geolocation.getCurrentPosition(function positionCallback(pos) {
+				_this.userCoords = pos.coords;
+
+				// find nearest airports pls
+				this.api.getAirportsNearest(_this.userCoords.latitude, _this.userCoords.longitude, 5, function(airports){
 					values = airports["airports"];
 					for (var value in values) {
 						this.api.getAirportFromCode(value["code"], function(airport) {
@@ -46,7 +50,7 @@ export default Ember.Object.extend({
 				looping = false;
 			});
 			while(looping){
-				sleep(1);
+				_this.sleep(1);
 			}
 			return values;
 		} else {
@@ -63,43 +67,79 @@ export default Ember.Object.extend({
 		} 
 	},
 
-	getFormattedDestinations: function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare) {
-		var dests;
-		this.api.lookupDestination(closestAirport(), chosenTheme(), chosenLengthOfStay(),
-								 null, chosenMaxFare(), null, null,
-		function callback(dests) {
-			var unfDests = dests["FareInfo"];
-			var fDests
-			for (var unfDest in unfDests) {
-				fDests = new Array();
-				fDests.push(function(){
-					this["Code"] = unfDest["DestinationLocation"];
-					this["Name"];
-					this["Fare"] = unfDest["LowestFare"];
-					var depdate = unfDest["DepartureDateTime"];
-					this["DepartureDate"] = depdate.slice(0,4) + "/" + depdate.slice(4,6) + "/" + depdate.slice(6,8);
-					var retdate = unfDest["ReturnDateTime"];
-					this["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
-					//DATA HERE
+	getFormattedDestinations: function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare, callback) {
+		var _this = this;
+
+		// Look up the destination
+		this.api.lookupDestination(closestAirport, chosenTheme, chosenLengthOfStay,
+								 null, chosenMaxFare, null, null,
+		function(inDests) {
+			// unformatted destinations
+			var unfDests = inDests["FareInfo"];
+
+			// final destinations, each being a different flight
+			var dests = [];
+			var numItineraries = unfDests.length;
+
+			// Figure out destinations and format them
+			for (var i = unfDests.length - 1; i >= 0; i--) {
+				var unfDest = unfDests[i];
+
+				// handle it
+				_this.handleDestination(_this, unfDest, function(it) {
+					dests.push(it);
+
+					// when done, call the main callback
+					if(--numItineraries == 0) {
+						callback(dests);
+					}
 				});
-				for (var fDest in fDests) {
-					var minCost=100000;
-					var cost, finalIt;
-					makeRawSabreAPICall(fDest["FareInfo"]["Links"]["href"], function(destinationInfo) {
-						for (var itinerary in destinationInfo.PricedItineraries) {
-							cost = itinerary.FareInfos.ItinTotalFare.TotalFare.Amount;
-							if(cost < minCost) {
-								minCost = cost;
-								finalIt = itinerary;
-							}
-						}
-						finalIt.Cost = minCost;
-					});
-					dests.push(finalIt)
-				}
 			}
 		});
-		return dests;
+	},
+
+	handleDestination: function(_this, unfDest, callback) {
+		var fDests = [];
+
+		// extract info
+		unfDest["Code"] = unfDest["DestinationLocation"];
+		unfDest["Name"];
+		unfDest["Fare"] = unfDest["LowestFare"];
+		var depdate = unfDest["DepartureDateTime"];
+		unfDest["DepartureDate"] = depdate.slice(0,4) + "/" + depdate.slice(4,6) + "/" + depdate.slice(6,8);
+		var retdate = unfDest["ReturnDateTime"];
+		unfDest["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
+
+		fDests.push(unfDest);
+
+		// Calculate their weights and costs
+		for (var i = fDests.length - 1; i >= 0; i--) {
+			var fDest = fDests[i];
+
+			var minCost = 100000;
+			var cost, finalIt;
+
+			// get info about this destination pl0x
+			_this.api.makeRawSabreAPICall(fDest["Links"][0]["href"], function(destinationInfo) {
+				// iterate each priced itinerary
+				for(var i = destinationInfo.PricedItineraries.length - 1; i >= 0; i--) {
+					var itinerary = destinationInfo.PricedItineraries[i];
+
+					// get the total fare
+					cost = itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount;
+					if(cost < minCost) {
+						minCost = cost;
+						finalIt = itinerary;
+					}
+				}
+
+				// set its cost
+				finalIt.Cost = minCost;
+
+				// do the callback m8
+				callback(finalIt);
+			});
+		}
 	},
 
 	getCityCode: function() {
