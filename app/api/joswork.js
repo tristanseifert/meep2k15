@@ -27,10 +27,6 @@ export default Ember.Object.extend({
 		return themes;
 	},
 
-	formatTheme: function(theme) {
-		return theme;
-	},
-
 	getClosestAirports: function() {
 		if ("geolocation" in navigator) {
 			var values = null;
@@ -97,5 +93,9 @@ export default Ember.Object.extend({
 		} else {
 			return null;
 		}
+	},
+
+	getRealDestinations: function() {
+		
 	}
 });
