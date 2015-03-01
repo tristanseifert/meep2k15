@@ -69,9 +69,10 @@ export default Ember.Object.extend({
 								 null, chosenMaxFare(), null, null,
 		function callback(dests) {
 			var unfDests = dests["FareInfo"];
+			var fDests
 			for (var unfDest in unfDests) {
-				dests = new Array();
-				dests.push(function(){
+				fDests = new Array();
+				fDests.push(function(){
 					this["Code"] = unfDest["DestinationLocation"];
 					this["Name"];
 					this["Fare"] = unfDest["LowestFare"];
@@ -81,6 +82,21 @@ export default Ember.Object.extend({
 					this["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
 					//DATA HERE
 				});
+				for (var fDest in fDests) {
+					var minCost=100000;
+					var cost, finalIt;
+					makeRawSabreAPICall(fDest["FareInfo"]["Links"]["href"], function(destinationInfo) {
+						for (var itinerary in destinationInfo.PricedItineraries) {
+							cost = itinerary.FareInfos.ItinTotalFare.TotalFare.Amount;
+							if(cost < minCost) {
+								minCost = cost;
+								finalIt = itinerary;
+							}
+						}
+						finalIt.Cost = minCost;
+					});
+					dests.push(finalIt)
+				}
 			}
 		});
 		return dests;
