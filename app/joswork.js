@@ -1,7 +1,6 @@
-var airportsData = require('./airportsData');
+import airportsData from './data/airports.js';
 
 var seeMore = 0;
-
 
 function getAirportList(call) {
 	var dests;
