@@ -9,7 +9,7 @@ $secondary-color: #ffeb3b;
 
 /* a bunch of general stuff */
 footer {
-	background-color: color("teal", "base") !important;
+/*	background-color: color("teal", "base") !important;*/
 }
 
 .jumbotron {
@@ -25,3 +25,6 @@ footer {
 .dropdown-content li a, .dropdown-content li span {
 	color: $primary-color;
 }
+
+@import 'theme.scss';
+@import 'loading.scss';
