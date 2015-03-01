@@ -15,6 +15,7 @@ export default Ember.Component.extend({
 
 		// get the URL
 		var src = "http://loremflickr.com/1024/768/" + keywordList + ",skyline/all";
+		//console.log(src);
 
 		// set as src
 		//this.set('src', src);

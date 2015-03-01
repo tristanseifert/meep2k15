@@ -43,14 +43,14 @@ export default Ember.Object.extend({
 	    });
 	},
 
-	// makeRawSabreAPICall: function(url, args, callback){
-	// 	Ember.$.ajax(url, {
-	//         headers: { 'Authorization': SABRE_API_KEY },
-	//         data = args;
-	//         error: function(/*jqXHR, textStatus, errorThrown*/){ callback(null); },
-	//         success: function(data/*, dataType, dataFilter*/){ callback(data); }
-	//     });
-	// },
+	makeRawSabreAPICall: function(url, args, callback){
+	 	Ember.$.ajax(url, {
+	         headers: { 'Authorization': SABRE_API_KEY },
+	         data: args,
+	         error: function(/*jqXHR, textStatus, errorThrown*/){ callback(null); },
+	         success: function(data/*, dataType, dataFilter*/){ callback(data); }
+	     });
+	 },
 
 	makeSitaAPICall: function(base, args, callback){
 	    var arrs = "";
@@ -128,7 +128,7 @@ export default Ember.Object.extend({
 
 	   			callback(airport);
 
-	   			console.log(_this.airportCodeCache);
+	   			//console.log(_this.airportCodeCache);
 	   		});
 	   	}
 	}

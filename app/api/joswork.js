@@ -76,10 +76,38 @@ export default Ember.Object.extend({
 			definition.country = airport.country;
 			definition.name = airport.name;
 
-			console.log(definition);
+			//console.log(definition);
 
 			callback();
 		});		
+	},
+
+	findFlights: function(_this, definition, callback) {
+		_this.api.makeRawSabreAPICall(definition["Links"][0]["href"], null, function(destinationInfo) {
+			if(destinationInfo != null) {
+				var itineraries = [];
+
+		 		// iterate each priced itinerary
+		 		for(var i = destinationInfo.PricedItineraries.length - 1; i >= 0; i--) {
+		 			var itinerary = destinationInfo.PricedItineraries[i];
+
+		 			var obama = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
+
+		 			itinerary.arriving = _this.processLeg(obama[0]);
+		 			itinerary.departing = _this.processLeg(obama[1]);
+
+		 			itineraries.push(itinerary);
+		 		}
+
+		 		definition.flights = itineraries;
+
+		 		//console.log(itineraries);
+			}
+
+			callback();
+
+	 		// idk even
+	 	});
 	},
 
 	getFormattedDestinations: function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare, callback) {
@@ -94,7 +122,7 @@ export default Ember.Object.extend({
 			
 			// final destinations
 			var fDests = [];
-			var numItineraries = unfDests.length * 2;
+			var numItineraries = unfDests.length * 3;
 
 			// Figure out destinations and format them
 			for (var i = unfDests.length - 1; i >= 0; i--) {
@@ -107,11 +135,19 @@ export default Ember.Object.extend({
 				var retdate = unfDest["ReturnDateTime"];
 				unfDest["ReturnDate"] = retdate.slice(4,6) + "/" + retdate.slice(6,8) + "/" + retdate.slice(0,4);
 
+				// fetch airport
 				_this.findAirport(_this, unfDest, function() {
 					if(--numItineraries == 0) {
 						callback(fDests);
 					}
 				});
+
+				// get some more infos
+				_this.findFlights(_this, unfDest, function() {
+					if(--numItineraries == 0) {
+						callback(fDests);
+					}
+				});			 	
 
 				fDests.push(unfDest);
 
@@ -154,25 +190,7 @@ export default Ember.Object.extend({
 
 			// 		}
 			// 	});
-			// }
-			
-
-			// get code
-			/*if(null != null) {
-				_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
-					var airport = airport.airports[0];
-
-					it.city = airport.city;
-					it.country = airport.country;
-					it.name = airport.name;
-
-					if(--numItineraries == 0) {
-						callback(dests);
-					}
-				});
-			} else {
-				--numItineraries;
-			}*/				
+			// }		
 			});
 		},
 
