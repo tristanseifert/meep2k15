@@ -96,13 +96,11 @@ export default Ember.Object.extend({
 	},
 
 	getAirportsInCity: function(cityCode, callback){
-	    this.makeSabreAPICall(SABRE_API_AIRPORT_AT_CITY_LOOKUP
-	                + cityCode + "/airports/", [], callback);
+	    this.makeSabreAPICall(SABRE_API_AIRPORT_AT_CITY_LOOKUP + cityCode + "/airports/", [], callback);
 	},
 
 	getAirportsNearest: function(lat, lng, maxAirports, callback){
-	    this.makeSitaAPICall(SITA_API_AIRPORT_NEAREST
-	                    + lat + "/" + lng, [["maxAirports", maxAirports]], callback);
+	    this.makeSitaAPICall(SITA_API_AIRPORT_NEAREST + lat + "/" + lng, [["maxAirports", maxAirports]], callback);
 	},
 
 	getInstaFlight: function(url, maxFare, limit, sortBy, callback){
@@ -111,7 +109,7 @@ export default Ember.Object.extend({
 		args.push(["maxFare", maxFare]);
 		args.push(["limit", limit]);
 		args.push(["sortBy", sortBy]);
-		makeSabreAPICall(SABRE_API_INSTAFLIGHT, args, callback);
+		this.makeSabreAPICall(SABRE_API_INSTAFLIGHT, args, callback);
 	},
 
 	// gets info about an airport from a code
