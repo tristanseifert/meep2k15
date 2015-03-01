@@ -7,6 +7,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 	tagName: 'img',
 	attributeBindings: ['src'],
+	//classNames: ['materialboxed'],
 
 	src: function() {
 		// assume keywords are a string
@@ -19,5 +20,10 @@ export default Ember.Component.extend({
 		// set as src
 		//this.set('src', src);
 		return src;
-	}.property('keywords')
+	}.property('keywords'),
+
+	// do some shit
+	/*plsFocus: function() {
+		Ember.$(this).materialbox();
+	}.on('didInsertElement')*/
 });

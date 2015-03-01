@@ -2,27 +2,42 @@
 	margin: 0 !important;
 
 	.sidebar {
-		padding: 20px 0.75rem;
+		padding: 20px;
 	}
 
 	.content {
 		border-left: 1px solid color("blue-grey", "lighten-3");
 	}
 
+	/* multi selects */
 	.select-wrapper {
 		margin-top: 0;
 	}
 
+	/* sliders */
 	form > p > span.thumb > span.value {
 		color: #333 !important;
 	}
 
+	/* fields with labels */
 	.input-field label {
 		left: 0 !important;
 	}
 
 	.input-field {
 		margin-top: 1.75rem;
+	}
+
+	/* cards */
+	.card-content {
+		padding-top: 10px;
+	}
+
+	.card-reveal .card-title {
+		margin: -20px -20px 0 -20px;
+		padding: 20px 20px 13px 20px;
+
+		background: $secondary-color;
 	}
 }
 

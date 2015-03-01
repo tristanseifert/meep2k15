@@ -13,6 +13,11 @@ export default Ember.ObjectController.extend({
 		"AUS"
 	]),
 
+	// list of lengths to stay plox
+	stayLengths: Ember.A([
+		2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+	]),
+
 	// Query parameters
 	queryParams: ['sortBy', 'maxPrice', 'lengthOfStay', 'airport'],
 	sortBy: 'Popularity',

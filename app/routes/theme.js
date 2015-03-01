@@ -3,14 +3,16 @@ import UIInitMixin from '../mixins/uielement-initialisers';
 
 export default Ember.Route.extend(UIInitMixin, {
 	model: function(params) {
-		var themeId = params.theme_id;
-		var theme = this.store.find('theme', themeId);
-
 		var controller = this.controllerFor('theme');
 
 		// theme id, length of stay, max price
+		var themeId = params.theme_id;
 		var length = controller.get('lengthOfStay');
 		var price = controller.get('maxPrice');
+		var airport = controller.get('airport');
+
+		// get some additonal data
+		var theme = this.store.find('theme', themeId);
 
 		/**
 		 * This promise is resolved when we want to get a list of vcaations for
