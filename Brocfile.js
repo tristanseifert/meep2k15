@@ -41,4 +41,7 @@ app.import("bower_components/materialize/dist/font/roboto/Roboto-Thin.ttf", {
 	destDir: "assets/fonts/roboto"
 });
 
+// moment
+app.import('bower_components/moment/moment.js');
+
 module.exports = app.toTree();
