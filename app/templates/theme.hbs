@@ -1,0 +1,12 @@
+<div class="row theme-overview">
+	<form class="col s12 m3 sidebar">
+		<label>Sort By…</label>
+		{{view "select"
+			contentBinding="this.sortByKeys"
+			selectionBinding="this.sortBy"}}
+	</form>
+
+	<div class="col s12 m9 content">
+		<h3>{{this.title}}</h3>
+	</div>
+</div>

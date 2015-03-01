@@ -1,47 +1,57 @@
-<div class="section no-pad-bot" id="index-banner">
+<div class="section no-pad-bot jumbotron">
 	<div class="container">
-		<br><br>
-		<h1 class="header center orange-text">A Name For Something</h1>
+		<h1 class="header center">Find A Fucking Vacation™</h1>
 		<div class="row center">
-			<h5 class="header col s12 light">This is a subtitle, and you can put more stuff there.</h5>
+			<h5 class="header col s12 light">Select a theme to get started, or leave it up to the patented randomiser!</h5>
 		</div>
-		<div class="row center">
-			<a href="#!" id="download-button" class="btn-large waves-effect waves-light orange">pls m8</a>
-		</div>
-		<br><br>
 
+		<div class="row center">
+			<a href="#" class="dropdown-button btn btn-large waves-effect" data-activates='themesList'><i class="mdi-social-location-city left"></i> Select A Theme…</a>
+			<a href="#" class="btn btn-large waves-effect waves-light"><i class="mdi-action-autorenew left"></i> Random!!1!1!!!</a>
+
+			<!-- Dropdown Structure -->
+			<ul id='themesList' class='dropdown-content'>
+				{{#each theme in content}}
+					<li>
+						{{#link-to 'theme' theme.id}}
+							{{theme.title}}
+						{{/link-to}}
+					</li>
+				{{/each}}
+			</ul>
+
+		</div>
 	</div>
 </div>
 
 {{!-- content --}}
 <div class="container">
-		<div class="section">
-		<!--	 Icon Section	 -->
+	<div class="section">
 		<div class="row">
 			<div class="col s12 m4">
 				<div class="icon-block">
 					<h2 class="center light-blue-text"><i class="mdi-image-flash-on"></i></h2>
-					<h5 class="center">A Feature</h5>
+					<h5 class="center">It's Fucking Fast</h5>
 
-					<p class="light">This is a description for a certain feature. It does stuff !!!!</p>
+					<p class="light">Thanks to patented technologies written into law by the great Obama, you can find your quaint little vacation in the blink of a fucking eye.</p>
 				</div>
 			</div>
 
 			<div class="col s12 m4">
 				<div class="icon-block">
 					<h2 class="center light-blue-text"><i class="mdi-social-group"></i></h2>
-					<h5 class="center">More stuff.</h5>
+					<h5 class="center">It's Fucking Smart.</h5>
 
-					<p class="light">Watermelons are tasty, and you should try them with deep-fried ice cream.</p>
+					<p class="light">This motherfucker knows literally everything. Want to visit a place with nude beaches? Yes. It literally knows fucking everything.</p>
 				</div>
 			</div>
 
 			<div class="col s12 m4">
 				<div class="icon-block">
-					<h2 class="center light-blue-text"><i class="mdi-action-settings"></i></h2>
-					<h5 class="center">Yet another feature.</h5>
+					<h2 class="center light-blue-text"><i class="mdi-action-settings-applications"></i></h2>
+					<h5 class="center">Fucking Filters, yo!</h5>
 
-					<p class="light">With this feature, we can do some pretty great stuff.</p>
+					<p class="light">Don't like the shizzle the computer midgets came up with for you? Tweak them fucking filters to your damn tastes, asswipe!</p>
 				</div>
 			</div>
 		</div>

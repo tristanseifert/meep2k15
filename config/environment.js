@@ -26,11 +26,22 @@ module.exports = function(environment) {
 		]
 	};
 
+	// configure CSP
+	ENV.contentSecurityPolicy = {
+		'default-src': "'none'",
+		'script-src': "'self'",
+		'font-src': "'self'",
+		'connect-src': "'self' https://Squelcherator.local https://*.sabre.com",
+		'img-src': "'self' data:",
+		'style-src': "'self' 'unsafe-inline'",
+		'media-src': "'self'"
+	}
+	
 	if (environment === 'development') {
 		// ENV.APP.LOG_RESOLVER = true;
 		// ENV.APP.LOG_ACTIVE_GENERATION = true;
-		// ENV.APP.LOG_TRANSITIONS = true;
-		// ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+		ENV.APP.LOG_TRANSITIONS = true;
+		ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
 		// ENV.APP.LOG_VIEW_LOOKUPS = true;
 	}
 

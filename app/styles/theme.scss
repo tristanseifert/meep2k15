@@ -1,0 +1,19 @@
+.theme-overview {
+	margin: 0 !important;
+
+	.sidebar {
+		padding: 20px 0.75rem;
+	}
+
+	.content {
+		border-left: 1px solid color("blue-grey", "lighten-3");
+	}
+
+	.select-wrapper {
+		margin-top: 0;
+	}
+}
+
+footer {
+	margin-top: 0 !important;
+}
