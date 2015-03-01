@@ -4,9 +4,21 @@
 		<div class="row center">
 			<h5 class="header col s12 light">This is a subtitle, and you can put more stuff there.</h5>
 		</div>
-		
+
 		<div class="row center">
-			<a href="#!" id="download-button" class="btn-large waves-effect waves-light">pls m8</a>
+			<a href="#" class="dropdown-button btn btn-large waves-effect" data-activates='themesList'>Select A Theme…</a>
+
+			<!-- Dropdown Structure -->
+			<ul id='themesList' class='dropdown-content'>
+				{{#each theme in content}}
+					<li>
+						{{#link-to 'theme' theme.id}}
+							{{theme.title}}
+						{{/link-to}}
+					</li>
+				{{/each}}
+			</ul>
+
 		</div>
 	</div>
 </div>
