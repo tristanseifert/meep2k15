@@ -106,7 +106,7 @@ export default Ember.Object.extend({
 	},
 
 	getInstaFlight: function(url, maxFare, limit, sortBy, callback){
-		var urls = url.split["?"];
+		var urls = url.split("?");
 		var args = urls[1].split("&");
 		args.push(["maxFare", maxFare]);
 		args.push(["limit", limit]);
