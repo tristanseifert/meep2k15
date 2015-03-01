@@ -98,44 +98,44 @@ export default Ember.Object.extend({
 				fDests.push(unfDest);
 			}
 
-			// Calculate their weights and costs
-			for (var i = fDests.length - 1; i >= 0; i--) {
-				var fDest = fDests[i];
+			// // Calculate their weights and costs
+			// for (var i = fDests.length - 1; i >= 0; i--) {
+			// 	var fDest = fDests[i];
 
-				var minCost = 100000;
-				var cost, finalIt;
+			// 	var minCost = 100000;
+			// 	var cost, finalIt;
 
-				// get info about this destination pl0x
-				_this.api.makeRawSabreAPICall(fDest["Links"][0]["href"], function(destinationInfo) {
+			// 	// get info about this destination pl0x
+			// 	_this.api.makeRawSabreAPICall(fDest["Links"][0]["href"], function(destinationInfo) {
 				
-					// iterate each priced itinerary
-					for(var i = destinationInfo.PricedItineraries.length - 1; i >= 0; i--) {
-						var itinerary = destinationInfo.PricedItineraries[i];
+			// 		// iterate each priced itinerary
+			// 		for(var i = destinationInfo.PricedItineraries.length - 1; i >= 0; i--) {
+			// 			var itinerary = destinationInfo.PricedItineraries[i];
 
-						// get the total fare
-						cost = itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount;
-						if(cost < minCost) {
-							minCost = cost;
-							finalIt = itinerary;
-						}
-					}
+			// 			// get the total fare
+			// 			cost = itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount;
+			// 			if(cost < minCost) {
+			// 				minCost = cost;
+			// 				finalIt = itinerary;
+			// 			}
+			// 		}
 
-					// turn it into something that avoids murder
-					var itinerary = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
+			// 		// turn it into something that avoids murder
+			// 		var itinerary = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
 
-					finalIt.arriving = _this.processLeg(itinerary[0]);
-					finalIt.departing = _this.processLeg(itinerary[1]);
+			// 		finalIt.arriving = _this.processLeg(itinerary[0]);
+			// 		finalIt.departing = _this.processLeg(itinerary[1]);
 
-					// set its cost
-					finalIt.Cost = minCost;
+			// 		// set its cost
+			// 		finalIt.Cost = minCost;
 
-					}
-				});
-			}
+			// 		}
+			// 	});
+			// }
 			
 
 			// get code
-			if(it != null) {
+			if(null != null) {
 				_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
 					var airport = airport.airports[0];
 
@@ -153,14 +153,12 @@ export default Ember.Object.extend({
 
 			// when done, call the main callback
 			if(--numItineraries == 0) {
-				callback(dests);
+				callback(fDests);
 			}
 				
-		}
 		});
 
-		});
-	},
+		},
 
 
 /*
