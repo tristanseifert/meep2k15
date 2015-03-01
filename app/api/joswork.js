@@ -133,12 +133,68 @@ export default Ember.Object.extend({
 					}
 				}
 
+				// turn it into something that avoids murder
+				var itinerary = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
+
+				finalIt.arriving = _this.processLeg(itinerary[0]);
+				finalIt.departing = _this.processLeg(itinerary[1]);
+
 				// set its cost
 				finalIt.Cost = minCost;
 
 				// do the callback m8
 				callback(finalIt);
 			});
+		}
+	},
+
+	pad: function(n, width, z) {
+		z = z || '0';
+		n = n + '';
+		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+	},
+
+	// processes a single leg of the flighte
+	processLeg: function(info) {
+		// get the date it leaves and length of flight
+		var length = info.ElapsedTime * 60;
+		var legs = [];
+
+		// go through each leg
+		for (var i = info.FlightSegment.length - 1; i >= 0; i--) {
+			var leg = info.FlightSegment[i];
+
+			// Extract info from the leg
+			var legInfo = {
+				departingAirport: leg.DepartureAirport.LocationCode,
+				arrivingAirport: leg.ArrivalAirport.LocationCode,
+
+				flightNumber: leg.OperatingAirline.Code + "" + leg.OperatingAirline.FlightNumber,
+				stops: leg.StopQuantity
+			};
+
+			// Dates are fucking stupid
+			var departTz = leg.DepartureTimeZone.GMTOffset;
+			var departTime = leg.DepartureDateTime/* + "" + this.pad(departTz, 2) + ":00"*/;
+			legInfo.depart = moment(departTime, moment.ISO_8601).toDate();
+
+			var arriveTz = leg.ArrivalTimeZone.GMTOffset;
+			var arriveTime = leg.ArrivalDateTime/* + "" + this.pad(arriveTz, 2) + ":00"*/;
+			legInfo.arrive = moment(arriveTime , moment.ISO_8601).toDate();
+
+			/*console.log(departTime);
+			console.log(arriveTime);
+
+			console.log(legInfo);*/
+
+			// Push it
+			legs.push(legInfo);
+		};
+
+		// shit everything into the great structure of doom
+		return {
+			length: length,
+			legs: legs
 		}
 	},
 

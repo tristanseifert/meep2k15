@@ -29,7 +29,7 @@ export default Ember.Route.extend(UIInitMixin, {
 			// get all the shits
 			_this.api.getFormattedDestinations(airport, themeId, length, price, function(r) {
 				// build the stuff
-				console.log(r);
+//				console.log(r);
 
 				var infos = {
 					name: theme.get('name'),
