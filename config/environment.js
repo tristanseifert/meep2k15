@@ -29,11 +29,11 @@ module.exports = function(environment) {
 	// configure CSP
 	ENV.contentSecurityPolicy = {
 		'default-src': "'none'",
-		'script-src': "'self' https://cdnjs.cloudflare.com",
-		'font-src': "'self' https://fonts.gstatic.com",
-		'connect-src': "'self' https://Squelcherator.local",
+		'script-src': "'self'",
+		'font-src': "'self'",
+		'connect-src': "'self' https://Squelcherator.local https://*.sabre.com",
 		'img-src': "'self' data:",
-		'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
+		'style-src': "'self' 'unsafe-inline'",
 		'media-src': "'self'"
 	}
 	
