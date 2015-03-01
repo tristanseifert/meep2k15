@@ -76,17 +76,14 @@ export default Ember.Object.extend({
 		function(inDests) {
 			// unformatted destinations
 			var unfDests = inDests["FareInfo"];
-
+			
 			// final destinations
-			var dests = [];
-			var numItineraries = unfDests.length;
+			var fDests = [];
+			var numItineraries = unfDests.length * 2;
 
 			// Figure out destinations and format them
 			for (var i = unfDests.length - 1; i >= 0; i--) {
 				var unfDest = unfDests[i];
-
-				// handle it
-				var fDests = [];
 
 				// extract info
 				unfDest["Fare"] = unfDest["LowestFare"];
@@ -97,12 +94,25 @@ export default Ember.Object.extend({
 
 				fDests.push(unfDest);
 
+				// map to city
+				_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
+					var airport = airport.airports[0];
+
+					unfDest.city = airport.city;
+					unfDest.country = airport.country;
+					unfDest.name = airport.name;
+
+					console.log(unfDest);
+
+					if(--numItineraries == 0) {
+						callback(fDests);
+					}
+				});
+
 				// when done, call the main callback
 				if(--numItineraries == 0) {
 					callback(fDests);
 				}
-
-				console.log(numItineraries);
 			}
 
 			// // Calculate their weights and costs
