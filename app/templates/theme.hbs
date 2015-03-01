@@ -1,12 +1,48 @@
-<div class="row theme-overview">
-	<form class="col s12 m3 sidebar">
-		<label>Sort By…</label>
-		{{view "select"
-			contentBinding="this.sortByKeys"
-			selectionBinding="this.sortBy"}}
-	</form>
 
-	<div class="col s12 m9 content">
-		<h3>{{this.title}}</h3>
-	</div>
-</div>
+		<div class="row theme-overview">
+			<form class="col s12 m3 sidebar">
+				<label>Sort By…</label>
+				{{view "select"
+					contentBinding="this.sortByKeys"
+					selectionBinding="this.sortBy"}}
+
+				<label>Airport</label>
+				{{view "select"
+					contentBinding="this.airportList"
+					selectionBinding="this.airport"}}
+
+				<div class="input-field">
+					{{input type="number" id="length" min="2" max="16" value=this.lengthOfStay}}
+					<label for="length">Length of Stay</label>
+				</div>
+
+				<label>Maximum Price (USD)</label>
+				<p class="range-field">
+					{{input type="range" min="300" max="1500" value=this.maxPrice}}
+				</p>
+			</form>
+
+			<div class="col s12 m9 content">
+				<h3>{{this.title}}</h3>
+
+				<div class="row">
+
+					<div class="col s12 m6">
+						<div class="card">
+							<div class="card-image waves-effect waves-block waves-light">
+								{{keyword-image keywords="watermelon" class="activator"}}
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-navigation-more-vert right"></i></span>
+								<p><a href="#">This is a link</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Card Title <i class="mdi-navigation-close right"></i></span>
+								<p>Here is some more information about this product that is only revealed once clicked on.</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>

@@ -1,17 +1,16 @@
-import airportsData from './data/airports.js';
+import Ember from 'ember';
 
-var seeMore = 0;
 /*
 exports.getAirportList = function(call) {
 	var dests;
-	for (var dest in call."Destinations") {
+	for (var dest in call.Destinations) {
 		dests.push(dest);
 	}
 	return dests;
 }
 */
 
-
+/*
 exports.getChosenTheme = function(name) {
 	for (var theme in getThemes()) {
 		if (theme["Name"] == name) {
@@ -20,25 +19,27 @@ exports.getChosenTheme = function(name) {
 	}
 	return null;
 }
-
+*/
 
 exports.getThemes = function() {
-	var apiThemes;
-	apiGetThemeObjects(function callback(returnedThemeObject) {
-						apiThemes = returnedThemeObject["Themes"];
-						});
 	var themes;
-	for (var theme in apiThemes) {
-		themes.push(formatTheme(theme));
-	}
+	apiGetThemeObjects(function callback(returnedThemeObject) {
+							var apiThemes;
+							apiThemes = returnedThemeObject["Themes"];
+							for (var theme in apiThemes) {
+								var name = theme["Theme"];
+								theme["Name"] = name[0] + name.slice(1,name.length).toLowerCase();
+								themes.push(theme);
+							}
+						});
+	
 	return themes;
 }
 
 
 
 exports.formatTheme = function(theme) {
-	var name = theme["Theme"];
-	theme["Name"] = name[0] + name.slice(1,name.length).toLowerCase();
+	
 	return theme;
 }
 
@@ -61,32 +62,40 @@ function error() {
 
 */
 
-exports.attemptToLocate = function() {
+exports.getClosestAirports = function() {
 	if ("geolocation" in navigator) {
-		var value = null;
+		var values = null;
 		var looping = true;
 		navigator.geolocation
-		.getCurrentPosition(function getClosestAirport(pos) 
+		.getCurrentPosition(function positionCallback(pos) 
 		{
 			userCoords = pos.coords;
 			apiGetAirportsNearest(userCoords.latitude, userCoords.longitude, 5, function callback(airports){
-				value = airports["airports"];
+				values = airports["airports"];
+				for (var value in values) {
+					apiGetAirportFromCode(value["code"], function callback(airport) {
+						value["Name"] = airport["airports"][0]["name"];
+					});
+					value["Display"] = value["city"] + " (" + value["code"] + ")";
+				}
 			})
 			looping = false;
 		});
 		while(looping){
 			sleep(1);
 		}
-		return value;
+		return values;
 	}
 }
 
+
+/*
 exports.formatAirports = function(airports) {
 	for (var airport in airports) {
 		airport["Display"] = airport["city"] + " (" + airport["code"] + ")";
 	}
 }
-
+*/
 
 exports.sleep = function(milliseconds) { 
 	var start = new Date().getTime(); 
@@ -97,6 +106,7 @@ exports.sleep = function(milliseconds) {
 	} 
 }
 
+/*
 exports.getDestinations = function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare) {
 	var destinations;
 	apiLookupDestination(closestAirport(),
@@ -110,22 +120,37 @@ exports.getDestinations = function(closestAirport, chosenTheme, chosenLengthOfSt
 							destinations = dests["FareInfo"];
 						});
 	return destinations;
+<<<<<<< HEAD
 }
-
+*/
 export.getFormattedDestinations = function(closestAirport, chosenTheme, chosenLengthOfStay chosenMaxFare) {
-	var unfDests = getDestinations(closestAirport, chosenTheme, chosenLengthOfStay chosenMaxFare);
-	var fDests = new Array();
-	for (var unfDest in unfDests) {
-		fDests.push(function(){
-			this["Code"] = unfDest["DestinationLocation"];
-			this["Name"];
-			this["Fare"] = unfDest["LowestFare"];
-			var depdate = unfDest["DepartureDateTime"];
-			this["DepartureDate"] = depdate.slice(0,4) + "/" + depdate.slice(4,6) + "/" + depdate.slice(6,8);
-			var retdate = unfDest["ReturnDateTime"];
-			this["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
-		})
-	}
+	var dests;
+	apiLookupDestination(closestAirport(),
+						chosenTheme(),
+						chosenLengthOfStay(),
+						null,
+						chosenMaxFare(),
+						null,
+						null,
+						function callback(dests) {
+							var unfDests = dests["FareInfo"];
+							for (var unfDest in unfDests) {
+								dests = new Array();
+								dests.push(function(){
+									this["Code"] = unfDest["DestinationLocation"];
+									this["Name"];
+									this["Fare"] = unfDest["LowestFare"];
+									var depdate = unfDest["DepartureDateTime"];
+									this["DepartureDate"] = depdate.slice(0,4) + "/" + depdate.slice(4,6) + "/" + depdate.slice(6,8);
+									var retdate = unfDest["ReturnDateTime"];
+									this["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
+									//DATA HERE
+								})
+							}
+						});
+	return dests;
+=======
+>>>>>>> d1d1f16be4b23bf2c2395fdaf94f5144a0f32096
 }
 
 
