@@ -7,11 +7,18 @@ export default Ember.ObjectController.extend({
 		"Popularity"
 	]),
 
+	// List of airports
+	airportList: Ember.A([
+		"DFW",
+		"AUS"
+	]),
+
 	// Query parameters
-	queryParams: ['sortBy', 'maxPrice', 'lengthOfStay'],
+	queryParams: ['sortBy', 'maxPrice', 'lengthOfStay', 'airport'],
 	sortBy: 'Popularity',
 	maxPrice: 750,
 	lengthOfStay: 7,
+	airport: 'DFW',
 
 	// Arranged content. This performs sorting and shit.
 	arrangedContent: function() {

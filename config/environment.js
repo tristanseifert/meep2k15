@@ -32,7 +32,7 @@ module.exports = function(environment) {
 		'script-src': "'self'",
 		'font-src': "'self'",
 		'connect-src': "'self' https://Squelcherator.local https://*.sabre.com https://*.api.aero",
-		'img-src': "'self' data:",
+		'img-src': "'self' data: http://loremflickr.com",
 		'style-src': "'self' 'unsafe-inline'",
 		'media-src': "'self'"
 	}
