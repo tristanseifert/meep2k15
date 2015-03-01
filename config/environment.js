@@ -26,11 +26,22 @@ module.exports = function(environment) {
 		]
 	};
 
+	// configure CSP
+	ENV.contentSecurityPolicy = {
+		'default-src': "'none'",
+		'script-src': "'self' https://cdnjs.cloudflare.com",
+		'font-src': "'self' https://fonts.gstatic.com",
+		'connect-src': "'self' https://Squelcherator.local",
+		'img-src': "'self' data:",
+		'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
+		'media-src': "'self'"
+	}
+	
 	if (environment === 'development') {
 		// ENV.APP.LOG_RESOLVER = true;
 		// ENV.APP.LOG_ACTIVE_GENERATION = true;
-		// ENV.APP.LOG_TRANSITIONS = true;
-		// ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+		ENV.APP.LOG_TRANSITIONS = true;
+		ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
 		// ENV.APP.LOG_VIEW_LOOKUPS = true;
 	}
 

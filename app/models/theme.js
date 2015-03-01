@@ -18,6 +18,14 @@ Theme.reopenClass({
 			title: "meepers #258241",
 			id: "meep"
 		},
+		{
+			title: "An Apple Potato",
+			id: "apple"
+		},
+		{
+			title: "The Ghana Banana™",
+			id: "banana"
+		},
 	]
 });
 

@@ -16,4 +16,12 @@ footer {
 	h1 {
 		color: color("orange", "base");
 	}
+
+	a.btn {
+		color: #333;
+	}
+}
+
+.dropdown-content li a, .dropdown-content li span {
+	color: $primary-color;
 }
