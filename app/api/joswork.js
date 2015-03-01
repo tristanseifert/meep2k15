@@ -299,10 +299,16 @@ export default Ember.Object.extend({
 			legs.push(legInfo);
 		};
 
+		// get the date of the first flight leaving
+		legs = legs.reverse();
+
+		var leavingDate = legs[0].depart;
+
 		// shit everything into the great structure of doom
 		return {
 			length: length,
-			legs: legs
+			legs: legs,
+			departingTime: leavingDate
 		}
 	},
 
