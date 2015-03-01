@@ -12,6 +12,7 @@ var SABRE_API_BASE_URL = "https://api.test.sabre.com/";
 var SABRE_API_VERION = "v1/";
 
 var SABRE_API_DESTINATION_FINDER = "shop/flights/fares/";
+var SABRE_API_INSTAFLIGHT = "shop/flights/";
 var SABRE_API_TRAVEL_THEME_LOOKUP = "lists/supported/shop/themes/";
 var SABRE_API_AIRPORT_AT_CITY_LOOKUP = "lists/supported/cities/";
 
@@ -42,13 +43,14 @@ export default Ember.Object.extend({
 	    });
 	},
 
-	makeRawSabreAPICall: function(url, callback){
-		Ember.$.ajax(url, {
-	        headers: { 'Authorization': SABRE_API_KEY },
-	        error: function(/*jqXHR, textStatus, errorThrown*/){ callback(null); },
-	        success: function(data/*, dataType, dataFilter*/){ callback(data); }
-	    });
-	},
+	// makeRawSabreAPICall: function(url, args, callback){
+	// 	Ember.$.ajax(url, {
+	//         headers: { 'Authorization': SABRE_API_KEY },
+	//         data = args;
+	//         error: function(/*jqXHR, textStatus, errorThrown*/){ callback(null); },
+	//         success: function(data/*, dataType, dataFilter*/){ callback(data); }
+	//     });
+	// },
 
 	makeSitaAPICall: function(base, args, callback){
 	    var arrs = "";
@@ -101,6 +103,15 @@ export default Ember.Object.extend({
 	getAirportsNearest: function(lat, lng, maxAirports, callback){
 	    this.makeSitaAPICall(SITA_API_AIRPORT_NEAREST
 	                    + lat + "/" + lng, [["maxAirports", maxAirports]], callback);
+	},
+
+	getInstaFlight: function(url, maxFare, limit, sortBy, callback){
+		var urls = url.split["?"];
+		var args = urls[1].split("&");
+		args.push(["maxFare", maxFare]);
+		args.push(["limit", limit]);
+		args.push(["sortBy", sortBy]);
+		makeSabreAPICall(SABRE_API_INSTAFLIGHT, args, callback);
 	},
 
 	// gets info about an airport from a code
