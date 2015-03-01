@@ -8,7 +8,7 @@ export default Ember.Object.extend({
 	getThemes: function() {
 		var themes = [];
 
-		this.api.apiGetThemeObjects(function(returnedThemeObject) {
+		this.api.getThemeObjects(function(returnedThemeObject) {
 			// get themes
 			var apiThemes = returnedThemeObject["Themes"];
 
@@ -34,10 +34,10 @@ export default Ember.Object.extend({
 			navigator.geolocation
 			.getCurrentPosition(function positionCallback(pos) {
 				userCoords = pos.coords;
-				this.api.apiGetAirportsNearest(userCoords.latitude, userCoords.longitude, 5, function(airports){
+				this.api.getAirportsNearest(userCoords.latitude, userCoords.longitude, 5, function(airports){
 					values = airports["airports"];
 					for (var value in values) {
-						this.api.apiGetAirportFromCode(value["code"], function(airport) {
+						this.api.getAirportFromCode(value["code"], function(airport) {
 							value["Name"] = airport["airports"][0]["name"];
 						});
 						value["Display"] = value["city"] + " (" + value["code"] + ")";
@@ -65,7 +65,7 @@ export default Ember.Object.extend({
 
 	getFormattedDestinations: function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare) {
 		var dests;
-		this.api.apiLookupDestination(closestAirport(), chosenTheme(), chosenLengthOfStay(),
+		this.api.lookupDestination(closestAirport(), chosenTheme(), chosenLengthOfStay(),
 								 null, chosenMaxFare(), null, null,
 		function callback(dests) {
 			var unfDests = dests["FareInfo"];
