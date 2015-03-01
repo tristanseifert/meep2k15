@@ -4,6 +4,11 @@
 		{{view "select"
 			contentBinding="this.sortByKeys"
 			selectionBinding="this.sortBy"}}
+
+		<label>Maximum Price</label>
+		<p class="range-field">
+			{{input type="range" min="300" max="1500" value="maxPrice"}}
+		</p>
 	</form>
 
 	<div class="col s12 m9 content">
