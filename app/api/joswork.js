@@ -72,7 +72,7 @@ export default Ember.Object.extend({
 
 		// Look up the destination
 		this.api.lookupDestination(closestAirport, chosenTheme, chosenLengthOfStay,
-								 null, chosenMaxFare, null, null,
+								 moment().add(2, 'd').format('YYYY-MM-DD'), chosenMaxFare, null, null,
 		function(inDests) {
 			// unformatted destinations
 			var unfDests = inDests["FareInfo"];
