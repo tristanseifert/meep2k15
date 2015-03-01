@@ -1,21 +1,20 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+export default Ember.ObjectController.extend({
 	// Shown in the dropdown
 	sortByKeys: Ember.A([
-		{
-			title: "Cost",
-			id: "cost"
-		}, {
-			title: "Popularity",
-			id: "popularity"
-		}
+		"Cost",
+		"Popularity"
 	]),
 
 	// Query parameters
 	//queryParams: ['sortBy'],
-	sortBy: 'popularity'
+	sortBy: 'Popularity',
 
 	// Arranged content. This performs sorting and shit.
-	
+	arrangedContent: function() {
+		var content = this.get('content');
+
+		return content;
+	}.property('content', 'sortBy')
 });

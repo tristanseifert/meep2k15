@@ -3,13 +3,10 @@
 		<label>Sort By…</label>
 		{{view "select"
 			contentBinding="this.sortByKeys"
-			selectionBinding="this.sortBy"
-			optionLabelPath="content.title"
-			optionValuePath="content.id"
-			prompt="Select Sort Order"}}
+			selectionBinding="this.sortBy"}}
 	</form>
 
 	<div class="col s12 m9 content">
-		<h3>{{title}}</h3>
+		<h3>{{this.title}}</h3>
 	</div>
 </div>
