@@ -1,8 +1,8 @@
 
-SABRE_API_BASE_URL = "https://api.test.sabre.com/";
-SABRE_API_VERION = "v1/";
+SABRE_API_BASE_URL                      = "https://api.test.sabre.com/";
+SABRE_API_VERION                        = "v1/";
 
-CONFIG_API_AUTH = "Bearer Shared/IDL:IceSess\/SessMgr:1\.0.IDL/Common/!ICESMS\/ACPCRTD!ICESMSLB\/CRT.LB!-0123456789012345678!123456!0!ABCDEFGHIJKLM!E2E-1";
+CONFIG_API_AUTH                         = "Bearer Shared/IDL:IceSess\/SessMgr:1\.0.IDL/Common/!ICESMS\/ACPCRTD!ICESMSLB\/CRT.LB!-0123456789012345678!123456!0!ABCDEFGHIJKLM!E2E-1";
 
 SABRE_API_DESTINATION_FINDER_BASE       = "shop/flights/fares/";
 SABRE_API_TRAVEL_THEME_LOOKUP_BASE      = "lists/supported/shop/themes/";
