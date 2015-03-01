@@ -6,6 +6,9 @@ export default Ember.Object.extend({
 	api: APICalls.create(),
 	userCoords: null,
 
+	loadingAir: null,
+	// loadingFly: null,
+
 	getThemes: function() {
 		var themes = [];
 
@@ -75,6 +78,7 @@ export default Ember.Object.extend({
 			definition.city = airport.city;
 			definition.country = airport.country;
 			definition.name = airport.name;
+			_this.loadingAir.innerHTML = airport.name;
 
 			//console.log(definition);
 
@@ -115,11 +119,13 @@ export default Ember.Object.extend({
 
 	getFormattedDestinations: function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare, callback) {
 		var _this = this;
-
 		// Look up the destination
 		this.api.lookupDestination(closestAirport, chosenTheme, chosenLengthOfStay,
 								 moment().add(2, 'd').format('YYYY-MM-DD'), chosenMaxFare, null, null,
 		function(inDests) {
+
+			_this.loadingFly = Ember.$('#loadingFly')[0];
+			_this.loadingAir = Ember.$('#loadingAir')[0];
 			// unformatted destinations
 			var unfDests = inDests["FareInfo"];
 			
@@ -142,6 +148,7 @@ export default Ember.Object.extend({
 				_this.findAirport(_this, unfDest, function() {
 					if(--numItineraries == 0) {
 						callback(fDests);
+						_this.loadingAir.innerHTML = "Done";
 					}
 				});
 
@@ -149,6 +156,7 @@ export default Ember.Object.extend({
 				_this.findFlights(_this, unfDest, function() {
 					if(--numItineraries == 0) {
 						callback(fDests);
+						// _this.loadingFly.innerHTML = "Done";
 					}
 				});			 	
 
