@@ -77,45 +77,93 @@ export default Ember.Object.extend({
 			// unformatted destinations
 			var unfDests = inDests["FareInfo"];
 
-			// final destinations, each being a different flight
+			// final destinations
 			var dests = [];
-			var numItineraries = unfDests.length * 2;
+			var numItineraries = unfDests.length;
 
 			// Figure out destinations and format them
 			for (var i = unfDests.length - 1; i >= 0; i--) {
 				var unfDest = unfDests[i];
 
 				// handle it
-				_this.handleDestination(_this, unfDest, function(it) {
-					// push to array
-					dests.push(it);
+				var fDests = [];
 
-					// get code
-					if(it != null) {
-						_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
-							var airport = airport.airports[0];
+				// extract info
+				unfDest["Fare"] = unfDest["LowestFare"];
+				var depdate = unfDest["DepartureDateTime"];
+				unfDest["DepartureDate"] = depdate.slice(4,6) + "/" + depdate.slice(6,8) + "/" + depdate.slice(0,4);
+				var retdate = unfDest["ReturnDateTime"];
+				unfDest["ReturnDate"] = retdate.slice(4,6) + "/" + retdate.slice(6,8) + "/" + retdate.slice(0,4);
 
-							it.city = airport.city;
-							it.country = airport.country;
-							it.name = airport.name;
+				fDests.push(unfDest);
+			}
 
-							if(--numItineraries == 0) {
-								callback(dests);
-							}
-						});
-					} else {
-						--numItineraries;
+			// Calculate their weights and costs
+			for (var i = fDests.length - 1; i >= 0; i--) {
+				var fDest = fDests[i];
+
+				var minCost = 100000;
+				var cost, finalIt;
+
+				// get info about this destination pl0x
+				_this.api.makeRawSabreAPICall(fDest["Links"][0]["href"], function(destinationInfo) {
+				
+					// iterate each priced itinerary
+					for(var i = destinationInfo.PricedItineraries.length - 1; i >= 0; i--) {
+						var itinerary = destinationInfo.PricedItineraries[i];
+
+						// get the total fare
+						cost = itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount;
+						if(cost < minCost) {
+							minCost = cost;
+							finalIt = itinerary;
+						}
 					}
 
-					// when done, call the main callback
+					// turn it into something that avoids murder
+					var itinerary = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
+
+					finalIt.arriving = _this.processLeg(itinerary[0]);
+					finalIt.departing = _this.processLeg(itinerary[1]);
+
+					// set its cost
+					finalIt.Cost = minCost;
+
+					}
+				});
+			}
+			
+
+			// get code
+			if(it != null) {
+				_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
+					var airport = airport.airports[0];
+
+					it.city = airport.city;
+					it.country = airport.country;
+					it.name = airport.name;
+
 					if(--numItineraries == 0) {
 						callback(dests);
 					}
 				});
+			} else {
+				--numItineraries;
 			}
+
+			// when done, call the main callback
+			if(--numItineraries == 0) {
+				callback(dests);
+			}
+				
+		}
+		});
+
 		});
 	},
 
+
+/*
 	handleDestination: function(_this, unfDest, callback) {
 		var fDests = [];
 
@@ -169,7 +217,7 @@ export default Ember.Object.extend({
 			});
 		}
 	},
-
+	*/
 	pad: function(n, width, z) {
 		z = z || '0';
 		n = n + '';
