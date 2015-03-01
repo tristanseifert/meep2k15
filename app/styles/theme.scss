@@ -1,7 +1,18 @@
 
-.brand-logo > img {
+// .brand-logo > img {
+// 	height: 50px;
+// 	vertical-align: middle;
+// 	margin-bottom: 4px;
+// }
+
+.hackdfwLogo {
+	text-align: right;
+}
+
+.hackdfwLogo > img {
 	height: 50px;
 	vertical-align: middle;
+	margin-bottom: 4px;
 }
 
 .theme-overview {
@@ -49,4 +60,10 @@
 
 footer {
 	margin-top: 0 !important;
+}
+
+footer.page-footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 }
