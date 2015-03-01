@@ -96,6 +96,13 @@ export default Ember.Object.extend({
 				unfDest["ReturnDate"] = retdate.slice(4,6) + "/" + retdate.slice(6,8) + "/" + retdate.slice(0,4);
 
 				fDests.push(unfDest);
+
+				// when done, call the main callback
+				if(--numItineraries == 0) {
+					callback(fDests);
+				}
+
+				console.log(numItineraries);
 			}
 
 			// // Calculate their weights and costs
@@ -135,7 +142,7 @@ export default Ember.Object.extend({
 			
 
 			// get code
-			if(null != null) {
+			/*if(null != null) {
 				_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
 					var airport = airport.airports[0];
 
@@ -149,15 +156,8 @@ export default Ember.Object.extend({
 				});
 			} else {
 				--numItineraries;
-			}
-
-			// when done, call the main callback
-			if(--numItineraries == 0) {
-				callback(fDests);
-			}
-				
-		});
-
+			}*/				
+			});
 		},
 
 

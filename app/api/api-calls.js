@@ -88,6 +88,7 @@ export default Ember.Object.extend({
 	        ["theme",theme],
 	        ["lengthofstay",lengthOfStay],
 	        ["earliestdeparturedate",earliestDepartureDate],
+	        ["latestdeparturedate", earliestDepartureDate],
 	        ["maxFare",maxFare],
 	        ["region",region],
 	        ["topdestinations",topDestinations]

@@ -14,7 +14,7 @@ export default Ember.ArrayController.extend({
 			console.log(theme);
 
 			// transition
-			this.transitionTo('theme', theme);
+			this.transitionToRoute('theme', theme);
 		}
 	}
 });
