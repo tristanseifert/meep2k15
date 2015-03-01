@@ -1,18 +1,18 @@
 import airportsData from './data/airports.js';
 
 var seeMore = 0;
-
-function getAirportList(call) {
+/*
+exports.getAirportList = function(call) {
 	var dests;
 	for (var dest in call."Destinations") {
 		dests.push(dest);
 	}
 	return dests;
 }
+*/
 
 
-
-function getChosenTheme(name) {
+exports.getChosenTheme = function(name) {
 	for (var theme in getThemes()) {
 		if (theme["Name"] == name) {
 			return theme["Theme"];
@@ -22,7 +22,7 @@ function getChosenTheme(name) {
 }
 
 
-function getThemes() {
+exports.getThemes = function() {
 	var apiThemes;
 	apiGetThemeObjects(function callback(returnedThemeObject) {
 						apiThemes = returnedThemeObject["Themes"];
@@ -43,10 +43,7 @@ exports.formatTheme = function(theme) {
 }
 
 
-function getTopDestination() {
-	return seeMore * 5;
-}
-
+/*
 
 function seeMore() { 
 	if (seeMore < 10) {
@@ -62,7 +59,7 @@ function error() {
 	console.warn('It is a no work');
 }
 
-
+*/
 
 exports.attemptToLocate = function() {
 	if ("geolocation" in navigator) {
@@ -71,25 +68,10 @@ exports.attemptToLocate = function() {
 		navigator.geolocation
 		.getCurrentPosition(function getClosestAirport(pos) 
 		{
-			var userLat = pos.coords.latitude;
-			var userLon = pos.coords.longitude;
-			var aptLat, aptLon;
-			var distance = 8;
-			var closestAirport;
-			for (var airport in airportsData) {
-				if ("lat" in airport && "lon" in airport) {
-					aptLat = airport.lat;
-					aptLon = airport.lon;
-					if (Math.abs(aptLat - userLat) < 5 && Math.abs(aptLon - userLat) < 5) {
-						var testDist = getDistance(aptLat, aptLon, userLat, userLon)
-						if (testDist < distance) {
-							distance = testDist;
-							closestAirport = airport;
-						}
-					}
-				}
-			}
-			value = closestAirport;
+			userCoords = pos.coords;
+			apiGetAirportsNearest(userCoords.latitude, userCoords.longitude, 5, function callback(airports){
+				value = airports["airports"];
+			})
 			looping = false;
 		});
 		while(looping){
@@ -99,9 +81,14 @@ exports.attemptToLocate = function() {
 	}
 }
 
+exports.formatAirports = function(airports) {
+	for (var airport in airports) {
+		airport["Display"] = airport["city"] + " (" + airport["code"] + ")";
+	}
+}
 
 
-function sleep(milliseconds) { 
+exports.sleep = function(milliseconds) { 
 	var start = new Date().getTime(); 
 	for (var i = 0; i < 1e7; i++) { 
 		if ((new Date().getTime() - start) > milliseconds){ 
@@ -110,21 +97,39 @@ function sleep(milliseconds) {
 	} 
 }
 
-function getDestinations() {
+exports.getDestinations = function(closestAirport, chosenTheme, chosenLengthOfStay, chosenMaxFare) {
 	var destinations;
-	apiLookupDestination(getClosestAirport(),
-						getChosenTheme(),
-						getChosenEarliestDate(),
-						getChosenMaxFare(),
-						getChosenRegion(),
-						getTopDestinations(),
+	apiLookupDestination(closestAirport(),
+						chosenTheme(),
+						chosenLengthOfStay(),
+						null,
+						chosenMaxFare(),
+						null,
+						null,
 						function callback(dests) {
-							destinations = dests
+							destinations = dests["FareInfo"];
 						});
-	return destinations,
+	return destinations;
 }
 
-function getCityCode() {
+export.getFormattedDestinations = function(closestAirport, chosenTheme, chosenLengthOfStay chosenMaxFare) {
+	var unfDests = getDestinations(closestAirport, chosenTheme, chosenLengthOfStay chosenMaxFare);
+	var fDests = new Array();
+	for (var unfDest in unfDests) {
+		fDests.push(function(){
+			this["Code"] = unfDest["DestinationLocation"];
+			this["Name"];
+			this["Fare"] = unfDest["LowestFare"];
+			var depdate = unfDest["DepartureDateTime"];
+			this["DepartureDate"] = depdate.slice(0,4) + "/" + depdate.slice(4,6) + "/" + depdate.slice(6,8);
+			var retdate = unfDest["ReturnDateTime"];
+			this["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
+		})
+	}
+}
+
+
+exports.getCityCode = function() {
 	var closestAirport = attemptToLocate();
 	if (closestAirport) {
 		return closestAirport.iata;
@@ -133,25 +138,16 @@ function getCityCode() {
 	}
 }
 
-
+/*
 exports.getDistance = function(lat1, lon1, lat2, lon2) {
 	var distance = Math.sqrt(Math.pow(lat1-lat2, 2) + Math.pow(lon1-lon2,2));
 	console.log(distance);
 }
-
-exports.getChosenEarliestDate = function() {
-
-}
-
-exports.getChosenMaxFare = function() {
-
-}
-
-exports.getChosenRegion = function() {
-
-}
+*/
 
 
+/*
 exports.showFirstAirport = function() {
 	console.log(airportsData[0].iata);
 }
+*/
