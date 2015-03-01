@@ -8,9 +8,10 @@ export default Ember.ObjectController.extend({
 	]),
 
 	// Query parameters
-	queryParams: ['sortBy', 'maxPrice'],
+	queryParams: ['sortBy', 'maxPrice', 'lengthOfStay'],
 	sortBy: 'Popularity',
 	maxPrice: 750,
+	lengthOfStay: 7,
 
 	// Arranged content. This performs sorting and shit.
 	arrangedContent: function() {

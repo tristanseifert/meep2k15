@@ -31,7 +31,7 @@ module.exports = function(environment) {
 		'default-src': "'none'",
 		'script-src': "'self'",
 		'font-src': "'self'",
-		'connect-src': "'self' https://Squelcherator.local https://*.sabre.com",
+		'connect-src': "'self' https://Squelcherator.local https://*.sabre.com https://*.api.aero",
 		'img-src': "'self' data:",
 		'style-src': "'self' 'unsafe-inline'",
 		'media-src': "'self'"

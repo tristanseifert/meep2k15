@@ -5,9 +5,14 @@
 			contentBinding="this.sortByKeys"
 			selectionBinding="this.sortBy"}}
 
-		<label>Maximum Price</label>
+		<div class="input-field">
+			{{input type="number" id="length" min="2" max="16" value=this.lengthOfStay}}
+			<label for="length">Length of Stay</label>
+		</div>
+
+		<label>Maximum Price (USD)</label>
 		<p class="range-field">
-			{{input type="range" min="300" max="1500" value="maxPrice"}}
+			{{input type="range" min="300" max="1500" value=this.maxPrice}}
 		</p>
 	</form>
 

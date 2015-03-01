@@ -16,6 +16,14 @@
 	form > p > span.thumb > span.value {
 		color: #333 !important;
 	}
+
+	.input-field label {
+		left: 0 !important;
+	}
+
+	.input-field {
+		margin-top: 1.75rem;
+	}
 }
 
 footer {

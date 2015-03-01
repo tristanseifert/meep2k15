@@ -8,6 +8,10 @@ export default Ember.Route.extend(UIInitMixin, {
 
 		var controller = this.controllerFor('theme');
 
+		// theme id, length of stay, max price
+		var length = controller.get('lengthOfStay');
+		var price = controller.get('maxPrice');
+
 		/**
 		 * This promise is resolved when we want to get a list of vcaations for
 		 * a given theme.
