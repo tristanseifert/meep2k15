@@ -1,10 +1,11 @@
+import Ember from 'ember';
 import airportsData from './data/airports.js';
 
 var seeMore = 0;
 
 function getAirportList(call) {
 	var dests;
-	for (var dest in call."Destinations") {
+	for (var dest in call.Destinations) {
 		dests.push(dest);
 	}
 	return dests;
@@ -121,7 +122,7 @@ function getDestinations() {
 						function callback(dests) {
 							destinations = dests
 						});
-	return destinations,
+	return destinations;
 }
 
 function getCityCode() {
