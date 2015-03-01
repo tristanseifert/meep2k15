@@ -103,7 +103,23 @@ export default Ember.Object.extend({
 	                    + lat + "/" + lng, [["maxAirports", maxAirports]], callback);
 	},
 
-	getAirportFromCode: function(iataCode, callback){
-	    this.makeSitaAPICall(iataCode, [], callback);
+	// gets info about an airport from a code
+	airportCodeCache: {},
+
+	getAirportFromCode: function(iataCode, callback) {
+		var _this = this;
+
+		// is it in the cache?
+		if(this.airportCodeCache[iataCode] != null) {
+			callback(this.airportCodeCache[iataCode]);
+		} else {
+	   		this.makeSitaAPICall(iataCode, [], function(airport) {
+	   			_this.airportCodeCache[iataCode] = airport;
+
+	   			callback(airport);
+
+	   			console.log(_this.airportCodeCache);
+	   		});
+	   	}
 	}
 });

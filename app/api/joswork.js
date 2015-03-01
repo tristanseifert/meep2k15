@@ -79,7 +79,7 @@ export default Ember.Object.extend({
 
 			// final destinations, each being a different flight
 			var dests = [];
-			var numItineraries = unfDests.length;
+			var numItineraries = unfDests.length * 2;
 
 			// Figure out destinations and format them
 			for (var i = unfDests.length - 1; i >= 0; i--) {
@@ -87,7 +87,25 @@ export default Ember.Object.extend({
 
 				// handle it
 				_this.handleDestination(_this, unfDest, function(it) {
+					// push to array
 					dests.push(it);
+
+					// get code
+					if(it != null) {
+						_this.api.getAirportFromCode(unfDest.DestinationLocation, function(airport) {
+							var airport = airport.airports[0];
+
+							it.city = airport.city;
+							it.country = airport.country;
+							it.name = airport.name;
+
+							if(--numItineraries == 0) {
+								callback(dests);
+							}
+						});
+					} else {
+						--numItineraries;
+					}
 
 					// when done, call the main callback
 					if(--numItineraries == 0) {
@@ -111,7 +129,6 @@ export default Ember.Object.extend({
 		unfDest["ReturnDate"] = retdate.slice(0,4) + "/" + retdate.slice(4,6) + "/" + retdate.slice(6,8);
 
 		fDests.push(unfDest);
-		console.log(unfDest);
 
 		// Calculate their weights and costs
 		for (var i = fDests.length - 1; i >= 0; i--) {
@@ -122,29 +139,33 @@ export default Ember.Object.extend({
 
 			// get info about this destination pl0x
 			_this.api.makeRawSabreAPICall(fDest["Links"][0]["href"], function(destinationInfo) {
-				// iterate each priced itinerary
-				for(var i = destinationInfo.PricedItineraries.length - 1; i >= 0; i--) {
-					var itinerary = destinationInfo.PricedItineraries[i];
+				if(destinationInfo) {
+					// iterate each priced itinerary
+					for(var i = destinationInfo.PricedItineraries.length - 1; i >= 0; i--) {
+						var itinerary = destinationInfo.PricedItineraries[i];
 
-					// get the total fare
-					cost = itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount;
-					if(cost < minCost) {
-						minCost = cost;
-						finalIt = itinerary;
+						// get the total fare
+						cost = itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount;
+						if(cost < minCost) {
+							minCost = cost;
+							finalIt = itinerary;
+						}
 					}
+
+					// turn it into something that avoids murder
+					var itinerary = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
+
+					finalIt.arriving = _this.processLeg(itinerary[0]);
+					finalIt.departing = _this.processLeg(itinerary[1]);
+
+					// set its cost
+					finalIt.Cost = minCost;
+
+					// do the callback m8
+					callback(finalIt);
+				} else {
+					callback(null);
 				}
-
-				// turn it into something that avoids murder
-				var itinerary = itinerary.AirItinerary.OriginDestinationOptions.OriginDestinationOption;
-
-				finalIt.arriving = _this.processLeg(itinerary[0]);
-				finalIt.departing = _this.processLeg(itinerary[1]);
-
-				// set its cost
-				finalIt.Cost = minCost;
-
-				// do the callback m8
-				callback(finalIt);
 			});
 		}
 	},
