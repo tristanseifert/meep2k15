@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 		var keywordList = this.get('keywords');
 
 		// get the URL
-		var src = "http://loremflickr.com/1024/768/" + keywordList + ",skyline/all";
+		var src = "http://loremflickr.com/640/480/" + keywordList + ",skyline/all";
 		//console.log(src);
 
 		// set as src
